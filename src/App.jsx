@@ -1,11 +1,36 @@
 import { useState, useEffect } from 'react';
 
-const DOWNLOAD_URL = "https://github.com/yhsdaniel/chagee-scraper/releases/latest/download/CHAGEE-Scraper-Setup-1.0.0.exe"
-
 export default function App() {
   const [folder, setFolder] = useState('');
   const [logs, setLogs] = useState('');
   const [running, setRunning] = useState(null);
+
+  const [version, setVersion] = useState("v1.0.3")
+  const [downloading, setDownloading] = useState(false)
+  useEffect(() => {
+    fetch(`https://api.github.com/repos/chagee-scraper/releases/latest`)
+      .then(r => r.json())
+      .then(d => {
+        if (d.tag_name) setVersion(d.tag_name)
+      })
+      .catch(() => { })
+  }, [])
+  const directDownload = `https://github.com/yhsdaniel/chagee-scraper/releases/latest/download/CHAGEE-Scraper-Setup-${version.replace('v', '')}.exe`
+  const fallbackDownload = `https://github.com/yhsdaniel/chagee-scraper/releases/latest`
+
+  const handleDownload = () => {
+    setDownloading(true)
+    window.location.href = directDownload
+    // Kalau 3 detik tidak download, redirect ke releases page
+    setTimeout(() => {
+      fetch(directDownload, { method: 'HEAD' })
+        .then(r => {
+          if (!r.ok) window.location.href = fallbackDownload
+        })
+        .catch(() => window.location.href = fallbackDownload)
+        .finally(() => setDownloading(false))
+    }, 3000)
+  }
 
   useEffect(() => {
     window.electronAPI?.onLog?.((data) => {
@@ -30,10 +55,17 @@ export default function App() {
 
   return (
     <div style={{ padding: 20, fontFamily: 'sans-serif' }}>
-      <div>
-        <a href={DOWNLOAD_URL} className="bg-blue-600 text-white px-6 py-3 rounded">
-          Download for Windows
-        </a>
+      <div style={{ background: '#000', color: '#fff', padding: 20, borderRadius: 16, marginTop: 30 }}>
+        <p>Latest Version: {version}</p>
+        <button
+          onClick={handleDownload}
+          style={{ background: '#fff', color: '#000', padding: '14px 28px', borderRadius: 10, fontWeight: 'bold', border: 'none', cursor: 'pointer', marginTop: 10 }}
+        >
+          {downloading ? 'Downloading...' : '⬇️ Download for 【entity-Windows¦canonical_name=Windows】'}
+        </button>
+        <p style={{ fontSize: 12, marginTop: 10, opacity: 0.7 }}>
+          If download doesn't start, <a href={fallbackDownload} style={{ color: '#fff' }}>click here</a>
+        </p>
       </div>
 
       <h1>Chagee Scraping Dashboard</h1>

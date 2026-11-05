@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*.*.*'  # Trigger only when you push v1.0.0, v1.0.1 etc
 
+permissions:
+  contents: write
+
 jobs:
   build-win:
     runs-on: windows-latest
@@ -30,17 +33,22 @@ jobs:
 
       - name: Install Python deps
         run: |
-          cd python/Products-to-Gsheets
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          python -m playwright install --with-deps chromium
-          cd ../WOW-to-GS
-          pip install -r requirements.txt
-          cd ../..
+          Get-ChildItem -Directory "python" | ForEach-Object {
+            $req = Join-Path $_.FullName "requirements.txt"
+            if (Test-Path $req) {
+              Write-Host "Installing for $($_.Name)"
+              Push-Location $_.FullName
+              python -m pip install --upgrade pip
+              pip install -r requirements.txt
+              Pop-Location
+            }
+          }
+          python -m playwright install chromium
 
       - name: Build Web + Electron App
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm run build:web
           npx electron-builder --win --x64 --publish always

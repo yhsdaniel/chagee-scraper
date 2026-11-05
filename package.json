@@ -1,34 +1,65 @@
 {
-  "name": "webapp-scraper",
+  "name": "chagee-scraper",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "CHAGEE Scraper Dashboard to GSheets",
   "type": "module",
   "main": "electron/main.js",
   "scripts": {
-    "dev:react": "vite",
-    "dev:electron": "wait-on http://localhost:5173 && cross-env IS_DEV=true electron .",
-    "dev": "concurrently \"npm run dev:react\" \"npm run dev:electron\"",
-    "build:react": "vite build",
-    "build": "npm run build:react && electron-builder",
-    "postinstall": "electron-builder install-app-deps"
+    "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env IS_DEV=true electron .\"",
+    "dev:web": "vite",
+    "dev:electron": "cross-env IS_DEV=true electron .",
+    "build:web": "vite build",
+    "build:app": "electron-builder",
+    "build": "npm run build:web && npm run build:app",
+    "build:win": "npm run build:web && electron-builder --win",
+    "release": "npm run build:web && electron-builder --win --publish always"
   },
   "build": {
-    "appId": "com.you.scraperapp",
+    "appId": "com.yhsdaniel.chageescraper",
     "productName": "Chagee Scraper App",
+    "directories": {
+      "output": "release",
+      "buildResources": "public"
+    },
     "files": [
-      "electron/**",
-      "dist/**"
+      "dist/**/*",
+      "electron/**/*",
+      "!python/**/venv/**/*",
+      "!python/**/__pycache__/**/*",
+      "!python/**/*.pyc"
     ],
     "extraResources": [
       {
-        "from": "python/",
-        "to": "python/"
+        "from": "python/project1/",
+        "to": "python/project1/",
+        "filter": [
+          "**/*",
+          "!venv/Lib/site-packages/**/tests/**/*",
+          "!venv/Lib/site-packages/**/__pycache__/**/*"
+        ]
+      },
+      {
+        "from": "python/project2/",
+        "to": "python/project2/",
+        "filter": [
+          "**/*"
+        ]
       }
     ],
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CHAGEE Scraper"
+    },
     "publish": {
       "provider": "github",
       "owner": "yhsdaniel",
-      "repo": "https://github.com/yhsdaniel/webapp-scraper.git"
+      "repo": "chagee-scraper",
+      "private": false,
+      "releaseType": "release"
     }
   },
   "dependencies": {
@@ -42,8 +73,9 @@
     "@vitejs/plugin-react": "^6.1.2",
     "concurrently": "^10.0.6",
     "cross-env": "^10.1.0",
-    "electron": "^45.2.1",
+    "electron": "^31.0.0",
     "electron-builder": "^26.18.0",
+    "electron-updater": "^6.3.9",
     "oxlint": "^1.89.0",
     "vite": "^8.3.5",
     "wait-on": "^9.5.1"

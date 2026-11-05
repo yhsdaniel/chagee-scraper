@@ -1,0 +1,6 @@
+owner: yhsdaniel
+repo: chagee-scraper
+provider: github
+private: false
+releaseType: release
+updaterCacheDirName: chagee-scraper-updater

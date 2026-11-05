@@ -1,0 +1,7 @@
+python/
+venv/
+release/
+*.exe
+*.dmg
+electron/
+node_modules/electron*

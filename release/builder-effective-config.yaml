@@ -1,0 +1,36 @@
+directories:
+  output: release
+  buildResources: public
+appId: com.yhsdaniel.chageescraper
+productName: Chagee Scraper App
+files:
+  - filter:
+      - dist/**/*
+      - electron/**/*
+      - '!python/**/venv/**/*'
+      - '!python/**/__pycache__/**/*'
+      - '!python/**/*.pyc'
+extraResources:
+  - from: python/project1/
+    to: python/project1/
+    filter:
+      - '**/*'
+      - '!venv/Lib/site-packages/**/tests/**/*'
+      - '!venv/Lib/site-packages/**/__pycache__/**/*'
+  - from: python/project2/
+    to: python/project2/
+    filter:
+      - '**/*'
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: CHAGEE Scraper
+publish:
+  provider: github
+  owner: yhsdaniel
+  repo: chagee-scraper
+  private: false
+  releaseType: release
+electronVersion: 31.7.7

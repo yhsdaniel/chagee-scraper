@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const DOWNLOAD_URL = "https://github.com/yhsdaniel/chagee-scraper/releases/latest/download/CHAGEE-Scraper-Setup-1.0.0.exe"
+
 export default function App() {
   const [folder, setFolder] = useState('');
   const [logs, setLogs] = useState('');
@@ -28,6 +30,12 @@ export default function App() {
 
   return (
     <div style={{ padding: 20, fontFamily: 'sans-serif' }}>
+      <div>
+        <a href={DOWNLOAD_URL} className="bg-blue-600 text-white px-6 py-3 rounded">
+          Download for Windows
+        </a>
+      </div>
+
       <h1>Chagee Scraping Dashboard</h1>
 
       <div style={{ border: '1px solid #ddd', padding: 15, borderRadius: 8 }}>

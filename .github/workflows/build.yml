@@ -30,17 +30,17 @@ jobs:
 
       - name: Install Python deps
         run: |
-          cd python/Products to Gsheets
+          cd python/Products-to-Gsheets
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           python -m playwright install --with-deps chromium
-          cd ../WOW to GS
+          cd ../WOW-to-GS
           pip install -r requirements.txt
           cd ../..
 
       - name: Build Web + Electron App
-        env:
-          GH_TOKEN: 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
+        # env:
+        #   GH_TOKEN: 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
         run: |
           npm run build:web
           npx electron-builder --win --x64 --publish always

@@ -48,11 +48,11 @@ ipcMain.handle('select-folder', async () => {
 
 // Mapping: button name -> { pythonProject folder, script filename }
 const SCRIPT_MAP = {
-    'Login': { dir: 'WOW to Gsheets', script: 'login.py' },
-    'MTD': { dir: 'WOW to Gsheets', script: 'scraper-mtd.py' },
-    'WOW': { dir: 'WOW to Gsheets', script: 'main.py' },
-    'Products': { dir: 'Products to Gsheets', script: 'main.py' },
-    'Download store': { dir: 'Products to Gsheets', script: 'download.py' },
+    'Login': { dir: 'WOW-to-Gsheets', script: 'login.py' },
+    'MTD': { dir: 'WOW-to-Gsheets', script: 'scraper-mtd.py' },
+    'WOW': { dir: 'WOW-to-Gsheets', script: 'main.py' },
+    'Products': { dir: 'Products-to-Gsheets', script: 'main.py' },
+    'Download store': { dir: 'Products-to-Gsheets', script: 'download.py' },
 };
 
 ipcMain.handle('run-project', async (event, { project, folder }) => {

@@ -37,11 +37,10 @@ export default function App() {
   return (
     <div style={{ padding: 20, fontFamily: 'sans-serif' }}>
       <a
-        href={exe}
-        download
+        href={`https://api.github.com/repos/yhsdaniel/chagee-scraper/releases/latest`}
         style={{ display: 'inline-block', background: '#000', color: '#fff', padding: '16px 32px', borderRadius: 12, textDecoration: 'none', fontWeight: 'bold', marginTop: 20 }}
       >
-        Download {exe.name} ({(exe.size / 1024 / 1024).toFixed(1)} MB)
+        Download latest version
       </a>
 
       <h1>Chagee Scraping Dashboard</h1>

@@ -1,7 +1,7 @@
 {
   "name": "chagee-scraper",
   "private": true,
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "CHAGEE Scraper Dashboard to GSheets",
   "type": "module",
   "main": "electron/main.js",
@@ -65,8 +65,7 @@
   },
   "dependencies": {
     "react": "^19.3.1",
-    "react-dom": "^19.3.1",
-    "electron-updater": "^6.3.9"
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",

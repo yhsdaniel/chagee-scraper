@@ -7,7 +7,7 @@ export default function App() {
 
   const [release, setRelease] = useState < any > (null)
   useEffect(() => {
-    fetch(`https://api.github.com/repos/${REPO}/releases/latest`)
+    fetch(`https://api.github.com/repos/yhsdaniel/chagee-scraper/releases/latest`)
       .then(r => r.json())
       .then(setRelease)
   }, [])

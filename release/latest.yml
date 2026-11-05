@@ -1,8 +1,8 @@
-version: 1.0.0
+version: 1.0.7
 files:
-  - url: Chagee-Scraper-App-Setup-1.0.0.exe
-    sha512: H21o3qmKmhz5h54qtKFHThK/fmbkJerCRokDMwlHHkG8oma5ohIMjhgSdtA5+/QvttEObvsnUxiQ70plcgRulQ==
-    size: 84810283
-path: Chagee-Scraper-App-Setup-1.0.0.exe
-sha512: H21o3qmKmhz5h54qtKFHThK/fmbkJerCRokDMwlHHkG8oma5ohIMjhgSdtA5+/QvttEObvsnUxiQ70plcgRulQ==
-releaseDate: '2026-11-05T07:53:55.510Z'
+  - url: CHAGEE-Scraper-Setup-1.0.7.exe
+    sha512: Z9QswPUGcA9grIh7dCo6Zdn+j+felMlJswoFeZ9jQeeJf/NemOkxs2Dec0N5xZ8NfcaanQHnP/hGwnwxfECPeA==
+    size: 84810207
+path: CHAGEE-Scraper-Setup-1.0.7.exe
+sha512: Z9QswPUGcA9grIh7dCo6Zdn+j+felMlJswoFeZ9jQeeJf/NemOkxs2Dec0N5xZ8NfcaanQHnP/hGwnwxfECPeA==
+releaseDate: '2026-11-05T09:51:56.680Z'

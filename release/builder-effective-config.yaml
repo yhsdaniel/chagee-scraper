@@ -3,6 +3,7 @@ directories:
   buildResources: public
 appId: com.yhsdaniel.chageescraper
 productName: Chagee Scraper App
+artifactName: CHAGEE-Scraper-Setup-${version}.${ext}
 files:
   - filter:
       - dist/**/*

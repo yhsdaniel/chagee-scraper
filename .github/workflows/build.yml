@@ -1,0 +1,52 @@
+name: Build CHAGEE Scraper
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Trigger only when you push v1.0.0, v1.0.1 etc
+
+jobs:
+  build-win:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Node deps
+        run: npm ci
+
+      - name: Install Python deps
+        run: |
+          cd python/Products to Gsheets
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+          cd ../WOW to GS
+          pip install -r requirements.txt
+          cd ../..
+
+      - name: Build Web + Electron App
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm run build:web
+          npx electron-builder --win --x64 --publish always
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CHAGEE-Scraper-Windows
+          path: release/*.exe

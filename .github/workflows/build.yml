@@ -39,8 +39,8 @@ jobs:
           cd ../..
 
       - name: Build Web + Electron App
-        # env:
-        #   GH_TOKEN: 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
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm run build:web
           npx electron-builder --win --x64 --publish always

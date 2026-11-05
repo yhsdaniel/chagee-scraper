@@ -16,6 +16,8 @@ export default function App() {
     a.name.toLowerCase().endsWith('.exe') && !a.name.toLowerCase().includes('blockmap')
   )?.[0]
 
+  console.log(exe)
+
   useEffect(() => {
     window.electronAPI?.onLog?.((data) => {
       setLogs(prev => prev + data + '\n');

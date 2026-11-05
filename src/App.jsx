@@ -5,7 +5,7 @@ export default function App() {
   const [logs, setLogs] = useState('');
   const [running, setRunning] = useState(null);
 
-  const [release, setRelease] = useState < any > (null)
+  const [release, setRelease] = useState(null)
   useEffect(() => {
     fetch(`https://api.github.com/repos/yhsdaniel/chagee-scraper/releases/latest`)
       .then(r => r.json())

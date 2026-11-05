@@ -39,13 +39,21 @@ export default function App() {
 
   return (
     <div style={{ padding: 20, fontFamily: 'sans-serif' }}>
-      <a
-        href={exe.browser_download_url}
-        download
-        style={{ display: 'inline-block', background: '#000', color: '#fff', padding: '16px 32px', borderRadius: 12, textDecoration: 'none', fontWeight: 'bold', marginTop: 20 }}
-      >
-        Download {exe.name} ({(exe.size / 1024 / 1024).toFixed(1)} MB)
-      </a>
+      {exe ?
+        <a
+          href={exe.browser_download_url}
+          download
+          style={{ display: 'inline-block', background: '#000', color: '#fff', padding: '16px 32px', borderRadius: 12, textDecoration: 'none', fontWeight: 'bold', marginTop: 20 }}
+        >
+          Download {exe.name} ({(exe.size / 1024 / 1024).toFixed(1)} MB)
+        </a>
+        :
+        <a
+          style={{ display: 'inline-block', background: '#000', color: '#fff', padding: '16px 32px', borderRadius: 12, textDecoration: 'none', fontWeight: 'bold', marginTop: 20 }}
+        >
+          Downloading...
+        </a>
+      }
 
       <h1>Chagee Scraping Dashboard</h1>
 

@@ -12,9 +12,7 @@ export default function App() {
       .then(setRelease)
   }, [])
   // FILTER: hanya .exe yang BUKAN blockmap
-  const exe = release?.assets?.filter((a) =>
-    a.name.toLowerCase().endsWith('.exe') && !a.name.toLowerCase().includes('blockmap')
-  )?.[0]
+  const exe = release?.assets[0].browser_download_url.slice(0, -9)
 
   console.log(exe)
 
@@ -43,11 +41,11 @@ export default function App() {
     <div style={{ padding: 20, fontFamily: 'sans-serif' }}>
       {exe ?
         <a
-          href={exe.browser_download_url}
+          href={exe}
           download
           style={{ display: 'inline-block', background: '#000', color: '#fff', padding: '16px 32px', borderRadius: 12, textDecoration: 'none', fontWeight: 'bold', marginTop: 20 }}
         >
-          Download {exe.name} ({(exe.size / 1024 / 1024).toFixed(1)} MB)
+          Download {release.assets[0].name} ({(release.assets[0].size / 1024).toFixed(1)} MB)
         </a>
         :
         <a

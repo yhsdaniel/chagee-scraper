@@ -1,7 +1,7 @@
 {
   "name": "chagee-scraper",
   "private": true,
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "CHAGEE Scraper Dashboard to GSheets",
   "type": "module",
   "main": "electron/main.js",

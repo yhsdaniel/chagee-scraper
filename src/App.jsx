@@ -12,7 +12,7 @@ export default function App() {
       .then(setRelease)
   }, [])
   // FILTER: hanya .exe yang BUKAN blockmap
-  const exe = release?.assets[0].browser_download_url.slice(0, -9)
+  const exe = release?.assets[0].browser_download_url.replace(".blockmap", "")
 
   console.log(exe)
 

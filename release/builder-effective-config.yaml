@@ -10,14 +10,14 @@ files:
       - electron/**/*
       - package.json
 extraResources:
-  - from: python/project1/
-    to: python/project1/
+  - from: python/WOW-to-GS/
+    to: python/WOW-to-GS/
     filter:
       - '**/*'
       - '!venv/Lib/site-packages/**/tests/**/*'
       - '!venv/Lib/site-packages/**/__pycache__/**/*'
-  - from: python/project2/
-    to: python/project2/
+  - from: python/Products-to-Gsheets/
+    to: python/Products-to-Gsheets/
     filter:
       - '**/*'
 asar: true

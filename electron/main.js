@@ -6,6 +6,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const isDev = !!process.env.IS_DEV;
+
 let win;
 
 function createWindow() {
@@ -15,6 +17,8 @@ function createWindow() {
 
     win = new BrowserWindow({
         width: 1100, height: 800,
+        show: false,
+        backgroundColor: '#0f172a',
         webPreferences: {
             preload: preloadPath,
             contextIsolation: true,
@@ -22,11 +26,20 @@ function createWindow() {
         }
     });
 
-    if (process.env.IS_DEV) {
+    if (isDev) {
         win.loadURL('http://localhost:5173');
     } else {
         win.loadFile(path.join(__dirname, '../dist/index.html'));
     }
+
+    win.once('ready-to-show', () => {
+        win.show()
+    })
+    win.webContents.on('did-fail-load', (e, code, desc) => {
+        console.log('FAILED LOAD:', code, desc)
+    })
+
+    return win
 }
 
 app.whenReady().then(() => {
@@ -52,10 +65,8 @@ const SCRIPT_MAP = {
 };
 
 ipcMain.handle('run-project', async (event, { project, folder }) => {
-    const isDev = process.env.IS_DEV;
     const basePath = isDev ? path.join(__dirname, '../python') : path.join(process.resourcesPath, 'python');
 
-    // Resolve which directory and script to use
     const mapping = SCRIPT_MAP[project];
     if (!mapping) {
         const msg = `[ERROR] Unknown project: "${project}". Valid: ${Object.keys(SCRIPT_MAP).join(', ')}`;
@@ -72,7 +83,6 @@ ipcMain.handle('run-project', async (event, { project, folder }) => {
         return { status: 'error', message: msg };
     }
 
-    // Session storage in writable AppData
     const userDataPath = app.getPath('userData');
     if (!fs.existsSync(userDataPath)) fs.mkdirSync(userDataPath, { recursive: true });
 
@@ -82,7 +92,6 @@ ipcMain.handle('run-project', async (event, { project, folder }) => {
     console.log(`[DEBUG] project="${project}" -> ${mapping.dir}/${mapping.script}`);
     console.log(`[DEBUG] Using storage: ${storagePath} (exists: ${fs.existsSync(storagePath)})`);
 
-    // Detect Python venv
     const candidates = process.platform === 'win32'
         ? [
             path.join(projectDir, 'venv', 'Scripts', 'python.exe'),
@@ -110,7 +119,6 @@ ipcMain.handle('run-project', async (event, { project, folder }) => {
         args.push('--env', envPath);
     }
 
-    // Auto-migrate old session file from project dir to AppData
     const oldStoragePath = path.join(projectDir, 'storage_state.json');
     if (fs.existsSync(oldStoragePath) && !fs.existsSync(storagePath)) {
         try {

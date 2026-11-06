@@ -1,7 +1,7 @@
 {
   "name": "chagee-scraper",
   "private": true,
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "CHAGEE Scraper Dashboard to GSheets",
   "type": "module",
   "main": "electron/main.js",
@@ -30,8 +30,8 @@
     ],
     "extraResources": [
       {
-        "from": "python/project1/",
-        "to": "python/project1/",
+        "from": "python/WOW-to-GS/",
+        "to": "python/WOW-to-GS/",
         "filter": [
           "**/*",
           "!venv/Lib/site-packages/**/tests/**/*",
@@ -39,8 +39,8 @@
         ]
       },
       {
-        "from": "python/project2/",
-        "to": "python/project2/",
+        "from": "python/Products-to-Gsheets/",
+        "to": "python/Products-to-Gsheets/",
         "filter": [
           "**/*"
         ]

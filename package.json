@@ -1,7 +1,7 @@
 {
   "name": "chagee-scraper",
   "private": true,
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "CHAGEE Scraper Dashboard to GSheets",
   "type": "module",
   "main": "electron/main.js",
@@ -26,9 +26,7 @@
     "files": [
       "dist/**/*",
       "electron/**/*",
-      "!python/**/venv/**/*",
-      "!python/**/__pycache__/**/*",
-      "!python/**/*.pyc"
+      "package.json"
     ],
     "extraResources": [
       {
@@ -48,6 +46,8 @@
         ]
       }
     ],
+    "asar": true,
+    "compression": "maximum",
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
@@ -63,10 +63,7 @@
       "releaseType": "release"
     }
   },
-  "dependencies": {
-    "react": "^19.3.1",
-    "react-dom": "^19.3.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
@@ -76,8 +73,11 @@
     "dotenv-cli": "^11.1.0",
     "electron": "^31.0.0",
     "electron-builder": "^26.18.0",
+    "esbuild": "^0.28.2",
     "oxlint": "^1.89.0",
-    "vite": "^8.3.5",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "vite": "^8.3.6",
     "wait-on": "^9.5.1"
   }
 }

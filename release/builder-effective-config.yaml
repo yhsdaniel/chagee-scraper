@@ -8,9 +8,7 @@ files:
   - filter:
       - dist/**/*
       - electron/**/*
-      - '!python/**/venv/**/*'
-      - '!python/**/__pycache__/**/*'
-      - '!python/**/*.pyc'
+      - package.json
 extraResources:
   - from: python/project1/
     to: python/project1/
@@ -22,6 +20,8 @@ extraResources:
     to: python/project2/
     filter:
       - '**/*'
+asar: true
+compression: maximum
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true

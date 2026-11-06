@@ -49,9 +49,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          npm run build:web
-          npx electron-builder --win --x64 --publish always
+        run: npm run release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

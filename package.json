@@ -1,0 +1,93 @@
+{
+  "name": "chagee-scraper",
+  "private": true,
+  "version": "1.0.14",
+  "description": "CHAGEE Scraper Dashboard to GSheets",
+  "type": "module",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env IS_DEV=true electron .\"",
+    "dev:web": "vite",
+    "dev:electron": "cross-env IS_DEV=true electron .",
+    "build:web": "vite build",
+    "build:app": "electron-builder --win --publish never",
+    "build": "npm run build:web && npm run build:app",
+    "build:win": "npm run build:web && electron-builder --win --publish never",
+    "release": "npm run build:web && electron-builder --win --publish always"
+  },
+  "build": {
+    "appId": "com.yhsdaniel.chageescraper",
+    "productName": "Chagee Scraper App",
+    "artifactName": "CHAGEE-Scraper-Setup-${version}.${ext}",
+    "directories": {
+      "output": "release",
+      "buildResources": "public"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "python",
+        "to": "python",
+        "filter": [
+          "**/*.py",
+          "**/*.txt",
+          "**/*.json",
+          "!**/venv/**/*",
+          "!**/.venv/**/*",
+          "!**/__pycache__/**/*",
+          "!**/*.pyc",
+          "!**/.env",
+          "!**/.git/**/*",
+          "!**/storage_state.json"
+        ]
+      },
+      {
+        "from": "python/Products-to-Gsheets/",
+        "to": "python/Products-to-Gsheets/",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "asar": true,
+    "compression": "maximum",
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CHAGEE Scraper"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "yhsdaniel",
+      "repo": "chagee-scraper",
+      "private": false,
+      "releaseType": "release"
+    }
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "concurrently": "^10.0.6",
+    "cross-env": "^10.1.0",
+    "dotenv-cli": "^11.1.0",
+    "electron": "^31.0.0",
+    "electron-builder": "^26.18.0",
+    "esbuild": "^0.28.2",
+    "oxlint": "^1.89.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "vite": "^8.3.6",
+    "wait-on": "^9.5.1"
+  }
+}

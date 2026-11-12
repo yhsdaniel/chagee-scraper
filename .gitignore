@@ -1,0 +1,42 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+google_credential.json
+storage_state.json
+.env
+service_account.json
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+# build & large files
+**/build/
+release/
+dist/
+*.exe
+*.blockmap
+*.yml
+**/*.pkg
+**/*.exe
+**/__pycache__/
+node_modules/
+

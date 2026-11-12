@@ -42,7 +42,11 @@
           "!**/*.pyc",
           "!**/.env",
           "!**/.git/**/*",
-          "!**/storage_state.json"
+          "!**/storage_state.json",
+          "!**/google_credential.json",
+          "!**/service_account.json",
+          "!**/venv/**/*",
+          "!**/release/**/*"
         ]
       },
       {

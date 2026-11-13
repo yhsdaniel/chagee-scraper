@@ -18,8 +18,8 @@ import gspread
 import traceback
     
 if sys.platform == 'win32':
-    import asyncio
-    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+    # import asyncio
+    # asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
     try:
         if hasattr(sys.stdout, 'reconfigure'):
             sys.stdout.reconfigure(encoding='utf-8', errors='replace')

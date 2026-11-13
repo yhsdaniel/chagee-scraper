@@ -47,6 +47,8 @@ app.whenReady().then(() => {
 
     // JANGAN cek update kalau lagi dev
     if (!process.env.IS_DEV) {
+        autoUpdater.autoDownload = true;
+        autoUpdater.autoInstallOnAppQuit = true;
         autoUpdater.checkForUpdatesAndNotify();
     }
 });

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const FALLBACK_URL = "https://github.com/yhsdaniel/chagee-scraper/releases/download/v1.0.3/CHAGEE-Scraper-Setup-1.0.3.exe";
+const FALLBACK_URL = "https://github.com/yhsdaniel/chagee-scraper/releases/download/v1.0.4/CHAGEE-Scraper-Setup-1.0.4.exe";
 
 export default function App() {
   const [folder, setFolder] = useState('');

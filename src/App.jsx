@@ -31,6 +31,12 @@ export default function App() {
     });
   }, []);
 
+  useEffect(() => {
+    window.electron?.onUpdateAvailable?.((version) => {
+      alert(`Update ${version} lagi download...`);
+    });
+  }, []);
+
   const pickFolder = async () => {
     if (!window.electronAPI?.selectFolder) return alert('Electron API is not available');
     const f = await window.electronAPI.selectFolder();

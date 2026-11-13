@@ -16,6 +16,7 @@ import sys
 import argparse
 import gspread
 import traceback
+from pathlib import Path
     
 if sys.platform == 'win32':
     # import asyncio
@@ -25,6 +26,11 @@ if sys.platform == 'win32':
             sys.stdout.reconfigure(encoding='utf-8', errors='replace')
             sys.stderr.reconfigure(encoding='utf-8', errors='replace')
     except: pass
+
+BASE = Path(__file__).parent
+LIBS = BASE / "libs"
+if str(LIBS) not in sys.path:
+    sys.path.insert(0, str(LIBS))
 
 # === 1. PARSE ARGS DULU (SEBELUM IMPORT LAIN) ===
 parser = argparse.ArgumentParser()

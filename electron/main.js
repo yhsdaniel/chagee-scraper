@@ -44,6 +44,11 @@ function createWindow() {
 
 app.whenReady().then(() => {
     createWindow();
+
+    // JANGAN cek update kalau lagi dev
+    if (!process.env.IS_DEV) {
+        autoUpdater.checkForUpdatesAndNotify();
+    }
 });
 
 app.on('window-all-closed', () => {
@@ -63,6 +68,33 @@ const SCRIPT_MAP = {
     'Products': { dir: 'Products-to-Gsheets', script: 'main.py' },
     'Download store': { dir: 'Products-to-Gsheets', script: 'download.py' },
 };
+
+autoUpdater.on('update-available', (info) => {
+    console.log('Update tersedia:', info.version);
+    // bisa kirim ke renderer buat tampil toast "Update tersedia, lagi download..."
+    if (mainWindow) mainWindow.webContents.send('update-available', info.version);
+});
+
+autoUpdater.on('download-progress', (progress) => {
+    if (mainWindow) mainWindow.webContents.send('update-progress', progress.percent);
+});
+
+autoUpdater.on('update-downloaded', (info) => {
+    // sudah ke-download, tinggal restart
+    const result = dialog.showMessageBoxSync(mainWindow, {
+        type: 'info',
+        title: 'Update Tersedia',
+        message: `Versi ${info.version} sudah ter-download. Restart untuk update?`,
+        buttons: ['Restart Sekarang', 'Nanti']
+    });
+    if (result === 0) {
+        autoUpdater.quitAndInstall();
+    }
+});
+
+autoUpdater.on('error', (err) => {
+    console.log('Auto-update error:', err);
+});
 
 ipcMain.handle('run-project', async (event, { project, folder }) => {
     const basePath = isDev ? path.join(__dirname, '../python') : path.join(process.resourcesPath, 'python');

@@ -28,25 +28,9 @@ if sys.platform == 'win32':
     except: pass
 
 BASE = Path(__file__).parent
-SHARED_DIR = BASE / ".." / "shared"
-STORAGE_STATE_FILE = SHARED_DIR / "storage_state.json"
 LIBS = BASE / "libs"
 if str(LIBS) not in sys.path:
     sys.path.insert(0, str(LIBS))
-    
-def run():
-    if not STORAGE_STATE_FILE.exists():
-        print(f"BELUM LOGIN! File tidak ada: {STORAGE_STATE_FILE}")
-        print("Klik 'Login' dulu di app, baru jalankan scraper.")
-        return
-
-    with sync_playwright() as p:
-        browser = p.chromium.launch(channel='chrome', headless=True)
-        context = browser.new_context(storage_state=str(STORAGE_STATE_FILE))
-        page = context.new_page()
-        # ... lanjut scraping WOW-to-GS kamu di sini
-        print("WOW-to-GS jalan pakai session shared")
-        browser.close()
 
 # === 1. PARSE ARGS DULU (SEBELUM IMPORT LAIN) ===
 parser = argparse.ArgumentParser()
@@ -79,10 +63,10 @@ from google.oauth2.service_account import Credentials
 # from supabase import create_client, Client
 
 DASHBOARD_URL = os.getenv("DASHBOARD_URL")
-# if args.storage:
-#     STORAGE_STATE_FILE = args.storage
-# else:
-#     STORAGE_STATE_FILE = os.path.join(BASE_DIR, os.getenv("STORAGE_STATE_FILE", "storage_state.json"))
+if args.storage:
+    STORAGE_STATE_FILE = args.storage
+else:
+    STORAGE_STATE_FILE = os.path.join(BASE_DIR, os.getenv("STORAGE_STATE_FILE", "storage_state.json"))
 
 GOOGLE_SHEET_ID = os.getenv("GOOGLE_SHEET_ID")
 GOOGLE_SHEET_TAB = os.getenv("GOOGLE_SHEET_TAB", "Sheet1")

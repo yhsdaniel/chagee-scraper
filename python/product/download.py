@@ -28,7 +28,7 @@ from tkinter import simpledialog, messagebox
 load_dotenv()
 
 DASHBOARD_URL = os.getenv("DASHBOARD_URL")
-STORAGE_STATE_FILE = os.getenv("STORAGE_STATE_FILE", "storage_state.json")
+STORAGE_STATE_FILE = Path(__file__).parent / "storage_state.json"
 
 GOOGLE_SHEET_ID = os.getenv("GOOGLE_SHEET_ID")
 GOOGLE_SHEET_TAB = os.getenv("GOOGLE_SHEET_TAB", "Sheet1")

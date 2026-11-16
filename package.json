@@ -33,6 +33,7 @@
         "from": "python",
         "to": "python",
         "filter": [
+          "**/*",
           "**/*.py",
           "**/*.txt",
           "**/*.json",

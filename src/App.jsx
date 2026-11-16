@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react';
 
-const FALLBACK_URL = "https://github.com/yhsdaniel/chagee-scraper/releases/download/v1.0.4/CHAGEE-Scraper-Setup-1.0.4.exe";
+const FALLBACK_URL = "https://github.com/yhsdaniel/chagee-scraper/releases/download/v1.0.5/CHAGEE-Scraper-Setup-1.0.5.exe";
 
 export default function App() {
   const [folder, setFolder] = useState('');
   const [logs, setLogs] = useState('');
   const [running, setRunning] = useState(null);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  const refreshLogin = async () => {
+    const ok = await window.electron.checkLogin();
+    setIsLoggedIn(ok);
+  };
+
+  useEffect(() => { refreshLogin(); }, []);
 
   const [release, setRelease] = useState(null)
   useEffect(() => {
@@ -22,8 +32,6 @@ export default function App() {
   // FILTER: hanya .exe yang BUKAN blockmap
   const exe = release?.assets?.filter(r => r.name.includes(".exe") && !r.name.includes(".blockmap"))[0]
   const downloadUrl = exe?.browser_download_url || FALLBACK_URL
-
-  console.log('exe:', exe, 'downloadUrl:', downloadUrl)
 
   useEffect(() => {
     window.electronAPI?.onLog?.((data) => {
@@ -71,6 +79,35 @@ export default function App() {
       }
 
       <h1>Chagee Scraping Dashboard</h1>
+
+      <div className="mt-4 p-4 border rounded">
+        <p>Status: {isLoggedIn ? '✅ Sudah Login (shared)' : '❌ Belum Login'}</p>
+        <p className="text-sm text-gray-500">Session di: python/shared/storage_state.json</p>
+
+        {!isLoggingIn ? (
+          <button onClick={async () => { setIsLoggingIn(true); await window.electron.startLogin(); }} className="bg-blue-600 text-white px-4 py-2 rounded mt-2">
+            Buka Browser Login
+          </button>
+        ) : (
+          <div className="mt-2">
+            <p>Login di browser yang terbuka, kalau sudah masuk dashboard klik:</p>
+            <button onClick={async () => { await window.electron.saveSession(); setIsLoggingIn(false); setTimeout(refreshLogin, 500); }} className="bg-green-600 text-white px-4 py-2 rounded mt-2">
+              Simpan Session ke Shared
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-4 flex gap-2">
+        <button disabled={!isLoggedIn} onClick={() => window.electron.runWow()} className="bg-black text-white px-4 py-2 rounded disabled:opacity-40">
+          Jalankan WOW-to-GS
+        </button>
+        <button disabled={!isLoggedIn} onClick={() => window.electron.runProducts()} className="bg-black text-white px-4 py-2 rounded disabled:opacity-40">
+          Jalankan Products
+        </button>
+      </div>
+
+      <p className="text-xs text-gray-400 mt-2">2 scraper ini pakai session yang sama, jadi login 1x saja cukup.</p>
 
       <div style={{ border: '1px solid #ddd', padding: 15, borderRadius: 8 }}>
         <p>Local Folder: <b>{folder || 'Not selected'}</b></p>

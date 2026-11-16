@@ -2,13 +2,63 @@ import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import { spawn } from 'child_process';
 import path from 'path';
 import fs from 'fs';
+import pkg from 'electron-updater'
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const isDev = !!process.env.IS_DEV;
 
+const { autoUpdater } = pkg
+
 let win;
+
+function getPythonDir(sub = '') {
+    if (process.env.IS_DEV) {
+        return path.join(__dirname, '../python', sub);
+    }
+    return path.join(process.resourcesPath, 'python', sub);
+}
+
+function getPythonExe() {
+    // di .exe, python-nya dari venv / bundled, di dev pakai 'python'
+    if (process.env.IS_DEV) return 'python';
+    // kalau kamu bundle python.exe, ganti ke path itu
+    return path.join(process.resourcesPath, 'python', 'python.exe');
+}
+
+// LOGIN - cuma 1, save ke shared
+ipcMain.handle('start-login', () => {
+    const script = path.join(getPythonDir('wow'), 'login.py');
+    const child = spawn(getPythonExe(), [script], { cwd: getPythonDir('wow') });
+    child.stdout.on('data', (d) => console.log(d.toString()));
+    child.stderr.on('data', (d) => console.log('ERR:', d.toString()));
+    return true;
+});
+
+ipcMain.handle('save-session', () => {
+    const trigger = path.join(getPythonDir('wow'), 'save.trigger');
+    fs.writeFileSync(trigger, 'save');
+    return true;
+});
+
+ipcMain.handle('check-login', () => {
+    const f = path.join(getPythonDir('shared'), 'storage_state.json');
+    return fs.existsSync(f);
+});
+
+// SCRAPER - 2 folder, tapi pakai session yang sama
+ipcMain.handle('run-wow', () => {
+    const script = path.join(getPythonDir('wow'), 'main.py');
+    spawn(getPythonExe(), [script], { cwd: getPythonDir('wow') });
+    return true;
+});
+
+ipcMain.handle('run-products', () => {
+    const script = path.join(getPythonDir('product'), 'main.py');
+    spawn(getPythonExe(), [script], { cwd: getPythonDir('product') });
+    return true;
+})
 
 function createWindow() {
     const preloadPath = fs.existsSync(path.join(__dirname, 'preload.cjs'))

@@ -11,18 +11,31 @@ Cara pakai:
     python export_login_state.py
 """
 
-import os
+import os, time
+from pathlib import Path
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
 
-load_dotenv()
+# BASE = python/WOW-to-GS
+BASE = Path(__file__).parent
+PYTHON_DIR = BASE.parent
+SHARED_DIR = PYTHON_DIR / "shared"
+SHARED_DIR.mkdir(parents=True, exist_ok=True)
+
+# load .env dari shared, fallback ke .env lokal kalau ada
+load_dotenv(SHARED_DIR / ".env")
+load_dotenv(BASE / ".env")
 
 DASHBOARD_URL = os.getenv("DASHBOARD_URL")
-STORAGE_STATE_FILE = os.getenv("STORAGE_STATE_FILE", "storage_state.json")
+STORAGE_STATE_FILE = SHARED_DIR / "storage_state.json"
+TRIGGER_FILE = BASE / "save.trigger"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
 
 def main():
+    if TRIGGER_FILE.exists():
+        TRIGGER_FILE.unlink()
+
     with sync_playwright() as p:
         # headless=False supaya browser terlihat dan kamu bisa login manual
         browser = p.chromium.launch(
@@ -46,11 +59,22 @@ def main():
         page.goto(DASHBOARD_URL)
 
         print("\n>>> Silakan login manual di jendela browser yang terbuka.")
-        print(">>> Setelah berhasil login dan dashboard tampil, kembali ke terminal ini")
-        input(">>> lalu tekan ENTER untuk menyimpan session...\n")
+        # ganti input() -> nunggu trigger dari React
+        while True:
+            if TRIGGER_FILE.exists():
+                print(">>> Trigger diterima, menyimpan session...", flush=True)
+                break
+            if not browser.is_connected():
+                print(">>> Browser ditutup, batal.", flush=True)
+                return
+            time.sleep(1)
 
-        context.storage_state(path=STORAGE_STATE_FILE)
-        print(f"Session tersimpan di: {STORAGE_STATE_FILE}")
+        # SIMPAN CUMA 1x KE SHARED
+        context.storage_state(path=str(STORAGE_STATE_FILE))
+        print(f"Session tersimpan di: {STORAGE_STATE_FILE}", flush=True)
+
+        if TRIGGER_FILE.exists():
+            TRIGGER_FILE.unlink()
 
         browser.close()
 

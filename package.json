@@ -51,8 +51,8 @@
         ]
       },
       {
-        "from": "python/Products-to-Gsheets/",
-        "to": "python/Products-to-Gsheets/",
+        "from": "python/product/",
+        "to": "python/product/",
         "filter": [
           "**/*"
         ]

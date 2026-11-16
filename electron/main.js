@@ -64,11 +64,11 @@ ipcMain.handle('select-folder', async () => {
 
 // Mapping: button name -> { pythonProject folder, script filename }
 const SCRIPT_MAP = {
-    'Login': { dir: 'WOW-to-GS', script: 'login.py' },
-    'MTD': { dir: 'WOW-to-GS', script: 'scraper-mtd.py' },
-    'WOW': { dir: 'WOW-to-GS', script: 'main.py' },
-    'Products': { dir: 'Products-to-Gsheets', script: 'main.py' },
-    'Download store': { dir: 'Products-to-Gsheets', script: 'download.py' },
+    'Login': { dir: 'wow', script: 'login.py' },
+    'MTD': { dir: 'wow', script: 'scraper-mtd.py' },
+    'WOW': { dir: 'wow', script: 'main.py' },
+    'Products': { dir: 'product', script: 'main.py' },
+    'Download store': { dir: 'product', script: 'download.py' },
 };
 
 autoUpdater.on('update-available', (info) => {

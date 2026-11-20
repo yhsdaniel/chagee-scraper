@@ -1,7 +1,8 @@
 {
   "name": "chagee-scraper",
   "private": true,
-  "version": "1.0.5",
+  "version": "1.0.6",
+  "author": "yhsdaniel",
   "description": "CHAGEE Scraper Dashboard to GSheets",
   "type": "module",
   "main": "electron/main.js",
@@ -34,28 +35,13 @@
         "to": "python",
         "filter": [
           "**/*",
-          "**/*.py",
-          "**/*.txt",
-          "**/*.json",
           "!**/venv/**/*",
           "!**/.venv/**/*",
-          "**/libs/**/*",
           "!**/__pycache__/**/*",
           "!**/*.pyc",
-          "!**/.env",
           "!**/.git/**/*",
-          "!**/storage_state.json",
-          "!**/google_credential.json",
-          "!**/service_account.json",
-          "!**/venv/**/*",
-          "!**/release/**/*"
-        ]
-      },
-      {
-        "from": "python/product/",
-        "to": "python/product/",
-        "filter": [
-          "**/*"
+          "!**/release/**/*",
+          "!**/save.trigger"
         ]
       }
     ],
@@ -71,13 +57,13 @@
       "createStartMenuShortcut": true,
       "shortcutName": "CHAGEE Scraper"
     },
-    "publish": {
-      "provider": "github",
-      "owner": "yhsdaniel",
-      "repo": "chagee-scraper",
-      "private": false,
-      "releaseType": "release"
-    }
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "yhsdaniel",
+        "repo": "chagee-scraper"
+      }
+    ]
   },
   "devDependencies": {
     "@types/react": "^19.3.0",

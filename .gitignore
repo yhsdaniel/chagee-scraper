@@ -27,7 +27,6 @@ service_account.json
 *.sln
 *.sw?
 
-
 # build & large files
 **/build/
 release/
@@ -40,3 +39,14 @@ dist/
 **/__pycache__/
 node_modules/
 
+# Python bundled runtime & browsers (exceeds GitHub 100MB limit)
+python/runtime/
+
+# Generated environments & downloads
+.venv/
+venv/
+**/venv/
+**/.venv/
+python/product/store_list/
+**/save.trigger
+get-pip.py

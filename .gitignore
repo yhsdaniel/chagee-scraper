@@ -50,3 +50,9 @@ venv/
 python/product/store_list/
 **/save.trigger
 get-pip.py
+
+**/venv/
+**/.venv/
+python/product/store_list/
+**/save.trigger
+get-pip.py
